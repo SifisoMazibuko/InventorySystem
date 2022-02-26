@@ -43,8 +43,6 @@ namespace InventorySystem.Pages.Products
                 return Page();
             }
 
-            //Product.UserId = _context.User.Find(HttpContext.Session.GetString("_EmailAddress")).id; where is the page chrome 
-
             var user = _context.User.Where(x => x.Email == HttpContext.Session.GetString("_EmailAddress")).FirstOrDefault();
 
             if (user != null)

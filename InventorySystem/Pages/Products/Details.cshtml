@@ -1,0 +1,53 @@
+﻿@page
+@model InventorySystem.Pages.Products.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h4>Product Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.ProductName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Quantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Quantity)
+        </dd>
+        <dt class="col-sm-2">
+            <label>Manufacture Date</label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.ManufactureDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.BatchNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.BatchNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Supplier)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Supplier)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.CostPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.CostPrice)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-danger" asp-page="./Edit" asp-route-id="@Model.Product.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

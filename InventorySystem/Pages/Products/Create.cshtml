@@ -1,0 +1,71 @@
+﻿@page
+@model InventorySystem.Pages.Products.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="align-content-sm-end">    
+    <p><b>Welcome</b> @HttpContext.Session.GetString("_Name")</p>
+</div>
+
+<h4>Create Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                <label asp-for="Product.UserId" class="control-label"></label>
+                <input asp-for="Product.UserId" class="form-control" />
+                <span asp-validation-for="Product.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.SupplierId" class="control-label"></label>
+                <input asp-for="Product.SupplierId" class="form-control" />
+                <span asp-validation-for="Product.SupplierId" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Product.ProductName" class="control-label"></label>
+                <input asp-for="Product.ProductName" class="form-control" Required/>
+                <span asp-validation-for="Product.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.Quantity" class="control-label"></label>
+                <input asp-for="Product.Quantity" class="form-control" Required/>
+                <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.ManufactureDate" class="control-label"></label>
+                <input asp-for="Product.ManufactureDate" class="form-control" Required/>
+                <span asp-validation-for="Product.ManufactureDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.BatchNumber" class="control-label"></label>
+                <input asp-for="Product.BatchNumber" class="form-control" Required/>
+                <span asp-validation-for="Product.BatchNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.Supplier" class="control-label"></label>
+                <input asp-for="Product.Supplier" class="form-control" Required/>
+                <span asp-validation-for="Product.Supplier" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.CostPrice" class="control-label"></label>
+                <input asp-for="Product.CostPrice" class="form-control" Required/>
+                <span asp-validation-for="Product.CostPrice" class="text-danger"></span>
+            </div>&nbsp;&nbsp;
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -32,7 +32,10 @@ namespace InventorySystem.Pages.Products
 
         public async Task OnGetAsync()
         {
-            Product = await _context.Product.ToListAsync();
+            var user = _context.User.Where(x => x.Email == HttpContext.Session.GetString("_EmailAddress")).FirstOrDefault();
+            //View products by user who added them
+            Product = await _context.Product.Where(x => x.UserId == user.Id).ToListAsync();
+            
         }
 
         /// <summary>

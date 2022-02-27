@@ -19,11 +19,19 @@ namespace InventorySystem.Pages.Users
         private readonly Infrastructure.Data.InventoryDbContext _context;
         public readonly EmailConfiguration _emailConfig;
         private IConfiguration _configuration;
-        
+        private bool _disposed = false;
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
+        }
+
         public CreateModel(Infrastructure.Data.InventoryDbContext context, IConfiguration configuration)
         {
-            this._context = context;
-            this._configuration = configuration;
+            _context = context;
+            _configuration = configuration;
+            _disposed = true;
         }
         public IActionResult OnGet()
         {
@@ -55,7 +63,7 @@ namespace InventorySystem.Pages.Users
                 Text = string.Format("Hi " + UserIdentity.Name + ",\n" +
                                "\nWelcome to Inventory System." +
                                "\n"
-                               + "You can perform CRUD operation on Products."
+                               + "You can perform CRUD operations on the Products."
                                + "\n\n" + "Thank you!"
                                + "\n\n" + "Kind Regards,"
                                + "\n Sifiso\n"
@@ -110,6 +118,26 @@ namespace InventorySystem.Pages.Users
                 return false;
             else
                 return true;
+        }
+
+        /// <summary>
+        /// Disposing unmanaged reources
+        /// </summary>
+        /// <param name="disposing"></param>
+        private void Cleanup(bool disposing)
+        {
+            if (this._disposed)
+                return;
+            if (!disposing) { }
+
+            //Dispose Unmanaged resources
+            _disposed = true;
+        }
+
+        //finalizer to ensure resources are automatically cleaned up  
+        ~CreateModel()
+        {
+            Cleanup(true);
         }
     }
 }

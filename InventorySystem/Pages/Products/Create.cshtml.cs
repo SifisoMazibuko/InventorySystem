@@ -63,7 +63,7 @@ namespace InventorySystem.Pages.Products
         /// <summary>
         /// Disposing unmanaged reources
         /// </summary>
-        /// <param name="calledFromFinalizer"></param>
+        /// <param name="disposing"></param>
         private void Cleanup(bool disposing)
         {
             if (this._disposed)

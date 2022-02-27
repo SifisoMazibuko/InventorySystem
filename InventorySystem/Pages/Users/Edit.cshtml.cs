@@ -15,10 +15,18 @@ namespace InventorySystem.Pages.Users
     public class EditModel : PageModel
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
+        private bool _disposed = false;
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
+        }
 
         public EditModel(Infrastructure.Data.InventoryDbContext context)
         {
             _context = context;
+            _disposed = true;
         }
 
         [BindProperty]
@@ -73,6 +81,26 @@ namespace InventorySystem.Pages.Users
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);
+        }
+
+        /// <summary>
+        /// Disposing unmanaged reources
+        /// </summary>
+        /// <param name="disposing"></param>
+        private void Cleanup(bool disposing)
+        {
+            if (this._disposed)
+                return;
+            if (!disposing) { }
+
+            //Dispose Unmanaged resources
+            _disposed = true;
+        }
+
+        //finalizer to ensure resources are automatically cleaned up  
+        ~EditModel()
+        {
+            Cleanup(true);
         }
     }
 }

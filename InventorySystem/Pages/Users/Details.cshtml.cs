@@ -14,10 +14,18 @@ namespace InventorySystem.Pages.Users
     public class DetailsModel : PageModel
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
+        private bool _disposed = false;
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
+        }
 
         public DetailsModel(Infrastructure.Data.InventoryDbContext context)
         {
             _context = context;
+            _disposed = true;
         }
 
         public  User UserIdentity { get; set; }
@@ -36,6 +44,26 @@ namespace InventorySystem.Pages.Users
                 return NotFound();
             }
             return Page();
+        }
+
+        /// <summary>
+        /// Disposing unmanaged reources
+        /// </summary>
+        /// <param name="disposing"></param>
+        private void Cleanup(bool disposing)
+        {
+            if (this._disposed)
+                return;
+            if (!disposing) { }
+
+            //Dispose Unmanaged resources
+            _disposed = true;
+        }
+
+        //finalizer to ensure resources are automatically cleaned up  
+        ~DetailsModel()
+        {
+            Cleanup(true);
         }
     }
 }

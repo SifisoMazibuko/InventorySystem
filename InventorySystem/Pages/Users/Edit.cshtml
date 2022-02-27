@@ -5,9 +5,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>User</h4>
+<h4>Edit User</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,7 +20,7 @@
                 <label asp-for="UserIdentity.Email" class="control-label"></label>
                 <input asp-for="UserIdentity.Email" class="form-control" />
                 <span asp-validation-for="UserIdentity.Email" class="text-danger"></span>
-            </div>
+            </div>&nbsp;&nbsp;
             <input type="hidden" asp-for="UserIdentity.Id" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

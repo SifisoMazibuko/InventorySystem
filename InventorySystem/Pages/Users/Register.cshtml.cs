@@ -9,17 +9,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ApplicationCore.Entities;
 using Infrastructure.Data;
 using InventorySystem.Models;
+using MimeKit;
+using System.Net.Mail;
 
 namespace InventorySystem.Pages.Users
 {
     public class CreateModel : PageModel
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
-        public CreateModel(Infrastructure.Data.InventoryDbContext context)
+        public readonly EmailConfiguration _emailConfig;
+        private IConfiguration _configuration;
+        
+        public CreateModel(Infrastructure.Data.InventoryDbContext context, IConfiguration configuration)
         {
-            _context = context;
+            this._context = context;
+            this._configuration = configuration;
         }
-
         public IActionResult OnGet()
         {
             return Page();
@@ -38,6 +43,51 @@ namespace InventorySystem.Pages.Users
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Sifiso Mazibuko", "mazibujo19@gmail.com"));
+            message.To.Add(new MailboxAddress("",UserIdentity.Email));
+            message.Subject = UserIdentity.Name + " Registered!";
+
+            message.Body = new TextPart
+            {
+                Text = string.Format("Hi " + UserIdentity.Name + ",\n" +
+                               "\nWelcome to Inventory System." +
+                               "\n"
+                               + "You can perform CRUD operation on Products."
+                               + "\n\n" + "Thank you!"
+                               + "\n\n" + "Kind Regards,"
+                               + "\n Sifiso\n"
+                       )
+
+
+            };
+
+            var username = _configuration.GetSection("EmailConfiguration").GetSection("Username").Value;
+            var password = _configuration.GetSection("EmailConfiguration").GetSection("Password").Value;
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                try
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("smtp.gmail.com", 587, false);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    client.Authenticate(username,password);
+
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                finally
+                {
+                    client.Disconnect(true);
+                    client.Dispose();
+                }
+               
             }
 
             _context.User.Add(UserIdentity);

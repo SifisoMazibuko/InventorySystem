@@ -19,8 +19,8 @@ namespace InventorySystem.Pages.Products
         public void Dispose()
         {
             Cleanup(false);
-            GC.SuppressFinalize(this);
         }
+
         public DeleteModel(Infrastructure.Data.InventoryDbContext context)
         {
             _context = context;

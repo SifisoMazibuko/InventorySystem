@@ -20,7 +20,7 @@ namespace InventorySystem.Pages.Users
         public void Dispose()
         {
             Cleanup(false);
-            GC.SuppressFinalize(this);
+            
         }
 
         public EditModel(Infrastructure.Data.InventoryDbContext context)

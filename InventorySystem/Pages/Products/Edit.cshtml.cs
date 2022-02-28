@@ -19,8 +19,7 @@ namespace InventorySystem.Pages.Products
 
         public void Dispose()
         {
-            Cleanup(false);
-            GC.SuppressFinalize(this);
+            Cleanup(false);            
         }
         public EditModel(Infrastructure.Data.InventoryDbContext context)
         {

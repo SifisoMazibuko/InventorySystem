@@ -39,7 +39,7 @@ namespace InventorySystem.Pages.Users
         {
             try
             {
-                if (isValid(UserIdentity.Email))
+                if (IsValid(UserIdentity.Email))
                 {
                     HttpContext.Session.SetString(SessionKeyName, UserIdentity.Name);
                     HttpContext.Session.SetString(SessionKeyEmailAddress, UserIdentity.Email);
@@ -78,7 +78,7 @@ namespace InventorySystem.Pages.Users
             }
         }
 
-        public bool isValid(string email)
+        public bool IsValid(string email)
         {
             var user = (from u in _context.User
                             where u.Email == email

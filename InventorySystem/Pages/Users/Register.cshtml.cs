@@ -18,13 +18,12 @@ namespace InventorySystem.Pages.Users
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
         public readonly EmailConfiguration _emailConfig;
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private bool _disposed = false;
 
         public void Dispose()
         {
             Cleanup(false);
-            GC.SuppressFinalize(this);
         }
 
         public CreateModel(Infrastructure.Data.InventoryDbContext context, IConfiguration configuration)
@@ -37,9 +36,6 @@ namespace InventorySystem.Pages.Users
         {
             return Page();
         }
-
-        [TempData]
-        public string loggedInUser { get; set; }
 
         [BindProperty]
         public User UserIdentity { get; set; }
@@ -108,12 +104,11 @@ namespace InventorySystem.Pages.Users
             return _context.User.Find(email);
         }
 
-        public bool IsValid(string email, string name)
+        public bool IsValid(string email)
         {
             var user = (from c in _context.User
                             where   c.Email == email
                             select c).FirstOrDefault();
-           // return user.Any();
             if (user !=  null) 
                 return false;
             else

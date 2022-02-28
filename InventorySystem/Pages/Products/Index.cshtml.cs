@@ -19,7 +19,7 @@ namespace InventorySystem.Pages.Products
         public void Dispose()
         {
             Cleanup(false);
-            GC.SuppressFinalize(this);
+            
         }
         public IndexModel(Infrastructure.Data.InventoryDbContext context)
         {

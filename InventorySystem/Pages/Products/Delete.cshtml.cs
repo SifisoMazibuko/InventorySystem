@@ -11,15 +11,10 @@ using Infrastructure.Data;
 
 namespace InventorySystem.Pages.Products
 {
-    public class DeleteModel : PageModel
+    public class DeleteModel : PageModel, IDisposable
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
         private bool _disposed = false;
-
-        public void Dispose()
-        {
-            Cleanup(false);
-        }
 
         public DeleteModel(Infrastructure.Data.InventoryDbContext context)
         {
@@ -67,11 +62,11 @@ namespace InventorySystem.Pages.Products
         /// <summary>
         /// Disposing unmanaged reources
         /// </summary>
-        /// <param name="calledFromFinalizer"></param>
+        /// <param name="disposing"></param>
         private void Cleanup(bool disposing)
         {
-            if (this._disposed)
-                return;
+            if (_disposed)
+                _context.Dispose();
             if (!disposing) { }
 
             //Dispose Unmanaged resources
@@ -82,6 +77,12 @@ namespace InventorySystem.Pages.Products
         ~DeleteModel()
         {
             Cleanup(true);
+        }
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
         }
     }
 }

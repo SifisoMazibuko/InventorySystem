@@ -12,16 +12,11 @@ using Infrastructure.Data;
 
 namespace InventorySystem.Pages.Users
 {
-    public class EditModel : PageModel
+    public class EditModel : PageModel, IDisposable
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
         private bool _disposed = false;
 
-        public void Dispose()
-        {
-            Cleanup(false);
-            
-        }
 
         public EditModel(Infrastructure.Data.InventoryDbContext context)
         {
@@ -89,8 +84,8 @@ namespace InventorySystem.Pages.Users
         /// <param name="disposing"></param>
         private void Cleanup(bool disposing)
         {
-            if (this._disposed)
-                return;
+            if (_disposed)
+                _context.Dispose();
             if (!disposing) { }
 
             //Dispose Unmanaged resources
@@ -101,6 +96,12 @@ namespace InventorySystem.Pages.Users
         ~EditModel()
         {
             Cleanup(true);
+        }
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
         }
     }
 }

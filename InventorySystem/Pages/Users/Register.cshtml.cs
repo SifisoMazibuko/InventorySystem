@@ -11,20 +11,16 @@ using Infrastructure.Data;
 using InventorySystem.Models;
 using MimeKit;
 using System.Net.Mail;
+using Infrastructure.ResourceDisposal;
 
 namespace InventorySystem.Pages.Users
 {
-    public class CreateModel : PageModel
+    public class CreateModel : PageModel, IDisposable
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
         public readonly EmailConfiguration _emailConfig;
         private readonly IConfiguration _configuration;
         private bool _disposed = false;
-
-        public void Dispose()
-        {
-            Cleanup(false);
-        }
 
         public CreateModel(Infrastructure.Data.InventoryDbContext context, IConfiguration configuration)
         {
@@ -124,10 +120,10 @@ namespace InventorySystem.Pages.Users
         /// <param name="disposing"></param>
         private void Cleanup(bool disposing)
         {
-            if (this._disposed)
-                return;
-            if (!disposing) { }
-
+            if (_disposed)
+                _context.Dispose();
+            if (!disposing) { }          
+            
             //Dispose Unmanaged resources
             _disposed = true;
         }
@@ -137,5 +133,12 @@ namespace InventorySystem.Pages.Users
         {
             Cleanup(true);
         }
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

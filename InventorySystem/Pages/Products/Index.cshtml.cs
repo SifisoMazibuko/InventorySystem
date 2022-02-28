@@ -11,16 +11,11 @@ using Infrastructure.Data;
 
 namespace InventorySystem.Pages.Products
 {
-    public class IndexModel : PageModel
+    public class IndexModel : PageModel, IDisposable
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
         private bool _disposed = false;
 
-        public void Dispose()
-        {
-            Cleanup(false);
-            
-        }
         public IndexModel(Infrastructure.Data.InventoryDbContext context)
         {
             _context = context;
@@ -37,15 +32,14 @@ namespace InventorySystem.Pages.Products
             Product = await _context.Product.Where(x => x.UserId == user.Id).ToListAsync();
             
         }
-
         /// <summary>
         /// Disposing unmanaged reources
         /// </summary>
-        /// <param name="calledFromFinalizer"></param>
+        /// <param name="disposing"></param>
         private void Cleanup(bool disposing)
         {
-            if (this._disposed)
-                return;
+            if (_disposed)
+                _context.Dispose();
             if (!disposing) { }
 
             //Dispose Unmanaged resources
@@ -56,6 +50,12 @@ namespace InventorySystem.Pages.Products
         ~IndexModel()
         {
             Cleanup(true);
+        }
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
         }
 
     }

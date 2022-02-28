@@ -11,16 +11,11 @@ using Infrastructure.Data;
 
 namespace InventorySystem.Pages.Users
 {
-    public class DeleteModel : PageModel
+    public class DeleteModel : PageModel, IDisposable
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
         private bool _disposed = false;
 
-        public void Dispose()
-        {
-            Cleanup(false);
-            
-        }
         public DeleteModel(Infrastructure.Data.InventoryDbContext context)
         {
             _context = context;
@@ -70,8 +65,8 @@ namespace InventorySystem.Pages.Users
         /// <param name="disposing"></param>
         private void Cleanup(bool disposing)
         {
-            if (this._disposed)
-                return;
+            if (_disposed)
+                _context.Dispose();
             if (!disposing) { }
 
             //Dispose Unmanaged resources
@@ -82,6 +77,12 @@ namespace InventorySystem.Pages.Users
         ~DeleteModel()
         {
             Cleanup(true);
+        }
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
         }
     }
 }

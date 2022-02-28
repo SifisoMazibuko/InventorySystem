@@ -11,12 +11,13 @@ using ApplicationCore.Exceptions;
 
 namespace InventorySystem.Pages.Users
 {
-    public class LoginModel : PageModel
+    public class LoginModel : PageModel, IDisposable
     {
         private readonly Infrastructure.Data.InventoryDbContext _context;
         public const string SessionKeyId = "_Id";
         public const string SessionKeyName = "_Name";
         public const string SessionKeyEmailAddress = "_EmailAddress";
+        private bool _disposed = false;
 
         public LoginModel(Infrastructure.Data.InventoryDbContext context)
         {
@@ -49,10 +50,6 @@ namespace InventorySystem.Pages.Users
                                 return RedirectToPage("/Products/Index");
                             else
                                 return RedirectToPage("/Users/Login");
-                        
-                        
-
-                       // return RedirectToPage("/Products/Index");
                 }
                 else
                 {
@@ -87,6 +84,32 @@ namespace InventorySystem.Pages.Users
                 return true;
             else
                 return false;
+        }
+
+        /// <summary>
+        /// Disposing unmanaged reources
+        /// </summary>
+        /// <param name="disposing"></param>
+        private void Cleanup(bool disposing)
+        {
+            if (_disposed)
+                _context.Dispose();
+            if (!disposing) { }
+
+            //Dispose Unmanaged resources
+            _disposed = true;
+        }
+
+        //finalizer to ensure resources are automatically cleaned up  
+        ~LoginModel()
+        {
+            Cleanup(true);
+        }
+
+        public void Dispose()
+        {
+            Cleanup(false);
+            GC.SuppressFinalize(this);
         }
     }
 }

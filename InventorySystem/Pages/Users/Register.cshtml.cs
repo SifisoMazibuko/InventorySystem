@@ -49,9 +49,10 @@ namespace InventorySystem.Pages.Users
                 return Page();
             }
 
-            var message = new MimeMessage();
+            #region Send Email after registering (comment out cos of google Auth issue) 
+            /*var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Sifiso Mazibuko", "mazibujo19@gmail.com"));
-            message.To.Add(new MailboxAddress("",UserIdentity.Email));
+            message.To.Add(new MailboxAddress("", UserIdentity.Email));
             message.Subject = UserIdentity.Name + " Registered!";
 
             message.Body = new TextPart
@@ -77,7 +78,7 @@ namespace InventorySystem.Pages.Users
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     client.Connect("smtp.gmail.com", 587, false);
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    client.Authenticate(username,password);
+                    client.Authenticate(username, password);
 
                     client.Send(message);
                     client.Disconnect(true);
@@ -91,8 +92,10 @@ namespace InventorySystem.Pages.Users
                     client.Disconnect(true);
                     client.Dispose();
                 }
-               
-            }
+
+            }*/
+            #endregion
+
 
             _context.User.Add(UserIdentity);
             await _context.SaveChangesAsync();

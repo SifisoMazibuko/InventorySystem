@@ -4,7 +4,9 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<div class="align-content-sm-end">    
+    <p><b>Welcome</b> @HttpContext.Session.GetString("_Name")</p>
+</div>
 <div>
     <h4>Product Details</h4>
     <hr />

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@*@model InventorySystem.Pages.Users.IndexModel*@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta chimage-orientation8" />
@@ -31,12 +32,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
+                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Users/Login">Login</a>
-                        </li> 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Users/Register">Register</a>
-                        </li>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Users/Register">Register</a>
+                            </li>                       
                     </ul>
                     <a class="nav-link text-dark"  style="text-align:right;" asp-area="" asp-page="/Users/Logout">Logout</a>
                 </div>
@@ -58,7 +59,11 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script asp-append-version="true">
+            function preventBack() { window.history.forward(); }
+            setTimeout("preventBack()", 0);
+            window.onunload = function () { null };
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
